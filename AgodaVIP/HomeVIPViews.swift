@@ -15,22 +15,22 @@ struct HomeView: View {
                 categories
                 vipPanel
                 SectionTitle(title: "Promotions")
-                ScrollView(.horizontal) { HStack(spacing: 10) { HotelPhoto(image: "HomePromo", height: 100).frame(width: 190); HotelPhoto(image: "HomeHero", height: 100).frame(width: 190) }.padding(.horizontal, 12) }.scrollIndicators(.hidden)
+                ScrollView(.horizontal) { HStack(spacing: 10) { HotelPhoto(image: "HomePromo", height: 110).frame(width: 166); HotelPhoto(image: "HomePromo2", height: 110).frame(width: 166) }.padding(.horizontal, 12) }.scrollIndicators(.hidden)
                 bookingCard
-                carousel("Upcoming trip", ["SearchHotel1", "SearchHotel2"])
-                carousel("Recent viewed", ["RoomExecutive", "RoomLuxury"])
-                carousel("See today's deals", ["SearchHotel4", "SearchHotel5"])
+                carousel("Upcoming trip", [HomeCard(image: "HomeApartment", title: "Medea By Fraser Bangkok", subtitle: "Hotel & Reisen", width: 170, height: 105), HomeCard(image: "HomeDestination", title: "Upcoming stay", subtitle: "Koh Samui", width: 170, height: 105)])
+                carousel("Recent viewed", [HomeCard(image: "HomeRecent1", title: "Four Seasons Resort Koh Samui Thailand", subtitle: "9.1 Excellent", width: 166, height: 128), HomeCard(image: "HomeRecent2", title: "Kimpton Maa-Lai Bangkok", subtitle: "8.1 Excellent", width: 166, height: 128)])
+                dealCard
                 cashback
-                carousel("Discover hotels in top destinations", ["HomeDestination", "HomeHero"])
-                carousel("Explore all Agoda Homes", ["HomeApartment", "RoomSuperior"])
-                Button(action: onHotel) { Text("Featured Agoda Homes").font(.system(size: 17, weight: .medium)).frame(maxWidth: .infinity, alignment: .leading).padding(12) }.buttonStyle(.plain).foregroundStyle(AgodaColor.ink)
+                carousel("Discover hotels in top destinations", [HomeCard(image: "HomeDestination1", title: "Hua Hin / Cha-am", subtitle: "฿ 2,300 average price per night", width: 166, height: 140), HomeCard(image: "HomeDestination2", title: "Phuket", subtitle: "฿ 1,400 average price per night", width: 166, height: 140)])
+                carousel("Explore all Agoda Homes", [HomeCard(image: "HomeStay1", title: "Apartments", subtitle: "1,398 properties", width: 104, height: 98), HomeCard(image: "HomeStay2", title: "Houses", subtitle: "998 properties", width: 104, height: 98), HomeCard(image: "HomeStay3", title: "Private rooms", subtitle: "110 properties", width: 104, height: 98)])
+                carousel("Featured Agoda Homes", [HomeCard(image: "HomeFeatured1", title: "The Baraiotel at Transit No.8", subtitle: "9.0 Exceptional", width: 166, height: 128), HomeCard(image: "HomeFeatured2", title: "The Baraiotel at Chiang Mai", subtitle: "9.9 Exceptional", width: 166, height: 128)])
                 Color.clear.frame(height: 70)
             }
         }.scrollIndicators(.hidden).background(Color.white).safeAreaInset(edge: .bottom, spacing: 0) { HomeTabBar() }
     }
 
     private var categories: some View {
-        ScrollView(.horizontal) { HStack(spacing: 10) { category("All rooms", "HomeApartment", .red.opacity(0.15)); category("Flights", "HomeHero", AgodaColor.gold.opacity(0.25)); category("Flight + room", "HomeDestination", .green.opacity(0.2)); category("Things to do", "HomePromo", .purple.opacity(0.16)) }.padding(.horizontal, 12) }.scrollIndicators(.hidden)
+        ScrollView(.horizontal) { HStack(spacing: 10) { category("All rooms", "CategoryHotel", .red.opacity(0.15)); category("Flights", "CategoryFlight", AgodaColor.gold.opacity(0.25)); category("Flight + room", "CategoryHomes", .green.opacity(0.2)); category("Things to do", "CategoryThings", .purple.opacity(0.16)) }.padding(.horizontal, 12) }.scrollIndicators(.hidden)
     }
 
     private func category(_ title: String, _ image: String, _ tint: Color) -> some View {
@@ -45,16 +45,29 @@ struct HomeView: View {
     }
 
     private var bookingCard: some View {
-        VStack(spacing: 0) { SectionTitle(title: "Back to your booking"); HStack(spacing: 10) { Image("BookingHotel").resizable().scaledToFill().frame(width: 56, height: 42).clipped().clipShape(RoundedRectangle(cornerRadius: 5)); VStack(alignment: .leading) { Text("SALA Samui Choengmon Beach").font(.system(size: 13, weight: .medium)); Text("Sep 30 – Oct 1 · 1 room 2 adults").font(.system(size: 11)).foregroundStyle(AgodaColor.secondary) }; Spacer(); Image(systemName: "chevron.right") }.padding(.horizontal, 12) }
+        VStack(spacing: 0) { SectionTitle(title: "Back to your booking"); HStack(spacing: 10) { Image("HomeHero").resizable().scaledToFill().frame(width: 56, height: 42).clipped().clipShape(RoundedRectangle(cornerRadius: 5)); VStack(alignment: .leading) { Text("SALA Samui Choengmon Beach").font(.system(size: 13, weight: .medium)); Text("Sep 30 – Oct 1 · 1 room 2 adults").font(.system(size: 11)).foregroundStyle(AgodaColor.secondary) }; Spacer(); Image(systemName: "chevron.right") }.padding(.horizontal, 12) }
     }
 
-    private func carousel(_ title: String, _ images: [String]) -> some View {
-        VStack(spacing: 0) { SectionTitle(title: title, action: "See all"); ScrollView(.horizontal) { HStack(spacing: 10) { ForEach(images, id: \.self) { image in VStack(alignment: .leading, spacing: 4) { HotelPhoto(image: image, height: 112).frame(width: 180); Text("Paloma Eco Friendly Luxury Pool").font(.system(size: 12, weight: .medium)).lineLimit(2); Text("9.1 Excellent").font(.system(size: 11)).foregroundStyle(AgodaColor.blue) } }.padding(.horizontal, 12) }.padding(.bottom, 4) }.scrollIndicators(.hidden) }
+    private func carousel(_ title: String, _ cards: [HomeCard]) -> some View {
+        VStack(spacing: 0) { SectionTitle(title: title, action: "See all"); ScrollView(.horizontal) { HStack(spacing: 10) { ForEach(cards) { card in VStack(alignment: .leading, spacing: 4) { HotelPhoto(image: card.image, height: card.height).frame(width: card.width); Text(card.title).font(.system(size: 12, weight: .medium)).lineLimit(2); Text(card.subtitle).font(.system(size: 11)).foregroundStyle(AgodaColor.blue) }.frame(width: card.width, alignment: .leading) } }.padding(.horizontal, 12).padding(.bottom, 4) }.scrollIndicators(.hidden) }
+    }
+
+    private var dealCard: some View {
+        VStack(spacing: 0) { SectionTitle(title: "See today's deals"); HStack(spacing: 10) { Image("HomeDeal").resizable().scaledToFill().frame(width: 54, height: 42).clipped().clipShape(RoundedRectangle(cornerRadius: 5)); VStack(alignment: .leading) { Text("Nam nae (AgodaCash)").font(.system(size: 13, weight: .medium)); Text("Earn rewards on this stay").font(.system(size: 11)).foregroundStyle(AgodaColor.secondary) }; Spacer(); Image(systemName: "chevron.right") }.padding(.horizontal, 12) }
     }
 
     private var cashback: some View {
         VStack(spacing: 0) { SectionTitle(title: "Agoda Cash"); HStack { Image(systemName: "a.circle.fill").foregroundStyle(AgodaColor.platinum); VStack(alignment: .leading) { Text("AgodaCash balance").font(.system(size: 12)).foregroundStyle(AgodaColor.platinum); Text("฿ 238.46").font(.system(size: 12)) }; Spacer(); Image(systemName: "chevron.right") }.padding(12).overlay { RoundedRectangle(cornerRadius: 8).stroke(AgodaColor.line) }.padding(.horizontal, 12) }
     }
+}
+
+private struct HomeCard: Identifiable {
+    let id = UUID()
+    let image: String
+    let title: String
+    let subtitle: String
+    let width: CGFloat
+    let height: CGFloat
 }
 
 struct VIPStatusView: View {
