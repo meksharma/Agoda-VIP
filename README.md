@@ -1,24 +1,16 @@
 # Agoda VIP
 
-A standalone SwiftUI prototype of the AgodaVIP Gold-to-Platinum hotel booking experience.
+A design POC of the AgodaVIP hotel booking journey. Released on iOS worldwide (2021).
 
-## Included flow
+**[Browse the SwiftUI source](./AgodaVIP/)** · **[Open the Xcode project](./AgodaVIP.xcodeproj/)**
 
-- Agoda home feed with promotions, trips, deals, and hotel discovery
-- AgodaVIP Gold and Platinum status pages
-- Hotel search and long-form search results
-- Property details, reviews, map, amenities, and policies
-- Room selection and room-rate details
-- Payment, special requests, and price-details sheet
-- Gold-to-Platinum upgrade confirmation
-- Platinum booking confirmation and return home
+## What it covers
 
-## Requirements
+- Hotel discovery, search results, property details, and room selection
+- Payment, special requests, reviews, maps, amenities, and policies
+- AgodaVIP Gold-to-Platinum progress, upgrade, and booking confirmation
 
-- Xcode 27 or later
-- iOS 17 or later
-
-## Run
+## Run in Xcode
 
 ```bash
 git clone https://github.com/meksharma/Agoda-VIP.git
@@ -26,4 +18,4 @@ cd Agoda-VIP
 open AgodaVIP.xcodeproj
 ```
 
-Select an iPhone simulator and run the `AgodaVIP` scheme.
+Run the `AgodaVIP` scheme on an iPhone simulator. Requires Xcode 27 or later and iOS 17 or later.
